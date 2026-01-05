@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Priya 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  overflow:hidden;
+  font-family:monospace;
+  background:
+    radial-gradient(circle at top, #3a1c71, #000),
+    radial-gradient(circle at bottom, rgba(255,182,213,0.2), transparent 60%);
+}
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  box-shadow:inset 0 0 150px rgba(0,0,0,0.75);
+  pointer-events:none;
+}
+
+#heartCanvas{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  z-index:1;
+}
+
+.love-heart{
+  position:fixed;
+  color:rgba(255,182,213,0.35);
+  pointer-events:none;
+  animation:floatUp linear infinite;
+  z-index:0;
+}
+@keyframes floatUp{
+  from{transform:translateY(110vh);opacity:0;}
+  10%{opacity:1;}
+  to{transform:translateY(-15vh);opacity:0;}
+}
+
+.photo-balloon{
+  position:fixed;
+  bottom:-140px;
+  width:130px;
+  height:130px;
+  animation:balloonUp linear forwards;
+  z-index:2;
+
+  -webkit-mask-image:url('data:image/svg+xml;utf8,\
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 29.6">\
+<path fill="white" d="M23.6,0c-3.4,0-6.4,2-7.6,4.9C14.8,2,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.5,16,21.2,16,21.2s16-11.7,16-21.2C32,3.8,28.2,0,23.6,0z"/>\
+</svg>');
+  -webkit-mask-repeat:no-repeat;
+  -webkit-mask-position:center;
+  -webkit-mask-size:contain;
+
+  mask-image:url('data:image/svg+xml;utf8,\
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 29.6">\
+<path fill="white" d="M23.6,0c-3.4,0-6.4,2-7.6,4.9C14.8,2,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.5,16,21.2,16,21.2s16-11.7,16-21.2C32,3.8,28.2,0,23.6,0z"/>\
+</svg>');
+  mask-repeat:no-repeat;
+  mask-position:center;
+  mask-size:contain;
+
+  box-shadow:
+    0 0 25px rgba(255,182,213,0.8),
+    0 0 55px rgba(255,105,180,0.7);
+}
+.photo-balloon img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+@keyframes balloonUp{
+  to{transform:translateY(-120vh) scale(1.15);opacity:0;}
+}
+
+.box{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:rgba(0,0,0,0.82);
+  backdrop-filter:blur(24px);
+  border-radius:48px;
+  padding:30px;
+  display:none;
+  color:#ffd1e8;
+  text-align:center;
+  width:460px;
+  z-index:20;
+}
+
+.btn{
+  margin-top:18px;
+  padding:10px 28px;
+  border:none;
+  border-radius:22px;
+  background:#ea5fff;
+  color:white;
+  cursor:pointer;
+}
+input{
+  width:80%;
+  padding:12px;
+  border:none;
+  border-radius:20px;
+  text-align:center;
+  font-size:16px;
+}
+
+#gallery{width:620px;}
+#slideshow{
+  width:100%;
+  height:420px;
+  border-radius:22px;
+  overflow:hidden;
+  background:black;
+}
+#slideshow img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  opacity:0;
+  transition:opacity 1s ease;
+}
+#slideshow img.active{opacity:1;}
+
+#fsBtn{
+  position:fixed;
+  top:16px;
+  left:16px;
+  padding:8px 16px;
+  font-size:14px;
+  border:none;
+  border-radius:18px;
+  background:linear-gradient(45deg,#ff5fa2,#ff9acb);
+  color:white;
+  cursor:pointer;
+  box-shadow:0 0 18px rgba(255,154,203,0.6);
+  z-index:1000;
+}
+
+#openBtn{
+  position:fixed;
+  bottom:32px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:12px 26px;
+  font-size:16px;
+  border:none;
+  border-radius:24px;
+  background:linear-gradient(45deg,#ff5fa2,#ff9acb);
+  color:white;
+  cursor:pointer;
+  box-shadow:0 0 22px rgba(255,154,203,0.7);
+  display:none;
+  z-index:1000;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<button id="fsBtn">⛶ Full Screen</button>
+<button id="openBtn">OPEN 💖</button>
+
+<canvas id="heartCanvas" width="520" height="520"></canvas>
+
+<div id="passwordBox" class="box" style="display:block;">
+  <h2>🔐 Enter Password</h2>
+  <p>
+Ala chusthe naaku siggu vasthundhi 😜👀
+Kaani safety mukyam… password type chey, lopalaki raa💖
+  </p>
+  <input type="password" id="pwd" placeholder="Enter password"><br><br>
+  <button class="btn" onclick="checkPassword()">Unlock 💌</button>
+  <p id="error" style="color:#ff9acb;display:none;">Wrong password </p>
+</div>
+
+<div id="messageBox" class="box">
+  <h2> Priya 💖</h2>
+  <p>
+    Every time I see you,<br>
+    my heart smiles a little more.<br><br>
+    <b>Inka chusthava Koncham Lopala ki raa chuduvu😘</b>
+    <b>I LIKE YOU</b>
+  </p>
+  <p>— Surya ❤️</p>
+  <button class="btn" id="viewImagesBtn">View Memories 📸</button>
+</div>
+
+<div id="gallery" class="box">
+  <h2>Memories 💕</h2>
+  <div id="slideshow">
+    <img src="Images/img 1.png" class="active">
+    <img src="Images/img 2.jpeg">
+    <img src="Images/img 3.png">
+    <img src="Images/img 4.png">
+    <img src="Images/img 5.jpeg">
+    <img src="Images/img 6.jpeg">
+    <img src="Images/img 7.jpeg">
+    <img src="Images/img 8.jpeg">
+    <img src="Images/img 9.jpeg">
+    <img src="Images/img 10.jpeg">
+    <img src="Images/img 11.jpeg">
+    <img src="Images/img 12.jpeg">
+     <img src="Images/img 13.jpeg">
+     <img src="Images/img 14.jpeg">
+  </div>
+</div>
+
+<div id="finalPage" class="box">
+  <h2>After All These Memories 💖</h2>
+  <p>This is not the end,<br>it’s just the beginning 🌸</p>
+  <button class="btn" onclick="openLast()">Next 💕</button>
+</div>
+
+<div id="lastPage" class="box">
+  <h2>Just One Last Thing 💖</h2>
+  <p style="line-height:1.7;">
+    Priya , inka emaina kaavala idhi saaripodhu anukuntunna 
+   Nee pakana okadu unnade .<br><br>
+    Oka chinna gift istadu teesuko kaadhu anaku please..
+    — Nithin Surya P
+  </p>
+  <button class="btn" onclick="location.reload()">Close</button>
+</div>
+
+<script>
+const music=document.getElementById("bgMusic");
+
+fsBtn.onclick=()=>{
+  if(!document.fullscreenElement){
+    document.documentElement.requestFullscreen();
+  }else{
+    document.exitFullscreen();
+  }
+};
+
+function checkPassword(){
+  if(pwd.value==="Krishna@09"){
+    passwordBox.style.display="none";
+    openBtn.style.display="block";
+    music.volume=0.4;
+    music.play().catch(()=>{});
+  }else{
+    error.style.display="block";
+  }
+}
+
+const canvas=document.getElementById("heartCanvas");
+const ctx=canvas.getContext("2d");
+ctx.textAlign="center";
+ctx.textBaseline="middle";
+let offset=0;
+function heartPoint(t){
+  return{
+    x:16*Math.pow(Math.sin(t),3),
+    y:13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t)
+  };
+}
+function drawHeart(){
+  ctx.clearRect(0,0,520,520);
+  ctx.font="16px monospace";
+  ctx.fillStyle="#ea80b0";
+  for(let i=0;i<Math.PI*2;i+=0.25){
+    let p=heartPoint(i+offset);
+    ctx.fillText(" LIKE YOU",260+p.x*10,260-p.y*10);
+  }
+  ctx.font="38px monospace";
+  ctx.fillStyle="#ffd1e8";
+  ctx.fillText("PRIYA",260,260);
+  offset+=0.003;
+  requestAnimationFrame(drawHeart);
+}
+drawHeart();
+
+const balloonImages=[
+  "Images/img 11.jpeg",
+  "Images/img 9.jpeg",
+  "Images/img 10.jpeg",
+  "Images/img 5.jpeg",
+  "Images/img 6.jpeg",
+  "Images/img 3.png",
+  "Images/img 7.jpeg",
+  "Images/img 1.png",
+  "Images/img 13.jpeg",
+  "Images/img 2.jpeg",
+  "Images/img 14.jpeg",
+  "Images/img 4.png",
+   "Images/img 8.jpeg",
+  "Images/img 12.jpeg"
+];
+let balloonInterval=null;
+let balloonIndex = 0;
+const preloadedBalloons = [];
+
+function preloadBalloons(){
+  balloonImages.forEach((src, i) => {
+    const im = new Image();
+    im.onload = () => { preloadedBalloons[i] = im; };
+    im.onerror = () => { console.warn('Balloon preload failed:', src); };
+    im.src = src;
+  });
+}
+preloadBalloons();
+
+function startPhotoBalloons(){
+  if(balloonInterval) return;
+  balloonInterval=setInterval(()=>{
+    const b=document.createElement("div");
+    b.className="photo-balloon";
+    const img=document.createElement("img");
+    const idx = balloonIndex % balloonImages.length;
+    balloonIndex++;
+    const src = balloonImages[idx];
+    img.src = preloadedBalloons[idx] ? preloadedBalloons[idx].src : encodeURI(src);
+    img.onerror = () => { console.warn('Failed to load balloon image:', src); };
+    b.appendChild(img);
+    b.style.left=Math.random()*90+"vw";
+    b.style.animationDuration=(14+Math.random()*8)+"s";
+    b.style.zIndex = 2;
+    document.body.appendChild(b);
+    setTimeout(()=>b.remove(),23000);
+  },1200);
+}
+
+openBtn.onclick=()=>{
+  messageBox.style.display="block";
+  openBtn.style.display="none";
+  startPhotoBalloons();
+};
+
+viewImagesBtn.onclick=()=>{
+  messageBox.style.display="none";
+  gallery.style.display="block";
+  startSlideshow();
+};
+
+const slides=document.querySelectorAll("#slideshow img");
+let idx=0;
+let slideshowTimer;
+
+function startSlideshow(){
+  slideshowTimer = setInterval(()=>{
+    slides[idx].classList.remove("active");
+    idx++;
+    if(idx>=slides.length){
+      gallery.style.display="none";
+      finalPage.style.display="block";
+      clearInterval(slideshowTimer);
+      return;
+    }
+    slides[idx].classList.add("active");
+  },3000);
+}
+
+function openLast(){
+  finalPage.style.display="none";
+  lastPage.style.display="block";
+}
+
+setInterval(()=>{
+  for(let i=0;i<5;i++){
+    const h=document.createElement("div");
+    h.className="love-heart";
+    h.innerHTML="❤";
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=(12+Math.random()*24)+"px";
+    h.style.animationDuration=(12+Math.random()*8)+"s";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),22000);
+  }
+},1400);
+</script>
+
+</body>
+</html>
